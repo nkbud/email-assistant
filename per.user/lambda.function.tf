@@ -1,29 +1,20 @@
 
-##
-# From
-##
 
-resource "aws_lambda_function" "handler" {
-  function_name = local.email_address
-  runtime       = "python3.9"
-
-  # lambda.zip
+resource "aws_lambda_function" "lambda" {
+  function_name    = var.name
   filename         = data.archive_file.lambda.output_path
   source_code_hash = filebase64sha256(data.archive_file.lambda.output_path)
+  role             = aws_iam_role.lambda.arn
   handler          = "${var.file_basename}.${var.method_name}"
-
-  # packages.zip
-  layers = [
-    aws_lambda_layer_version.packages.arn
-  ]
-
+  runtime          = "python3.9"
   environment {
-    variables = var.lambda_env_vars
+    variables = var.env
   }
-  tags = var.tags
-
   tracing_config {
     mode = "Active"
   }
-  role = aws_iam_role.lambda.arn
+  layers = [
+    aws_lambda_layer_version.packages.arn
+  ]
+  tags = var.tags
 }

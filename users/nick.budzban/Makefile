@@ -1,9 +1,11 @@
 
-packages-win:
+# windows only
+imperial:
 	pip install --target ./packages -r requirements.txt
 	powershell Compress-Archive -Path packages -Destination packages
 
-packages-unix:
+# all others
+metric:
 	pip install --target ./packages -r requirements.txt
 	zip -r packages packages.zip
 

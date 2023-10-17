@@ -1,45 +1,26 @@
 
 data "aws_caller_identity" "current" {}
 
+variable "username" {
+  description = "i.e. nick.budzban"
+}
+
+variable "servername" {
+  description = "i.e. oioio.email"
+}
+
+
 variable "tags" {
   description = "i.e. { Name: '' } "
 }
 
-##
-# The email address under surveillance
-##
-
-variable "user_name" {
-  description = "i.e. nick.budzban"
-}
-
-variable "domain_name" {
-  description = "i.e. oioio.email"
-  default     = "oioio.email"
-}
-
-locals {
-  email_address = "${var.user_name}@${var.domain_name}"
-}
-
-##
-# Referencing the lambda's main method
-##
-
 variable "file_basename" {
-  description = "i.e. 'index' from index.py"
-  default     = "index"
+  description = "i.e. 'emailhandler' from 'emailhandler.py'"
 }
 variable "method_name" {
-  description = "i.e. 'handler' from handler(event, context) { }"
-  default     = "handler"
+  description = "i.e. 'handler' from handler(event, context) { }'"
 }
 
-##
-# Configuring the lambda
-##
-
-variable "lambda_env_vars" {
+variable "env" {
   description = "i.e. { FOO = 'BAR' }"
-  default     = {}
 }
